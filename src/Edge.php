@@ -23,7 +23,7 @@ class Edge extends \phpDocumentor\GraphViz\Edge
      * @return Edge|\phpDocumentor\GraphViz\Edge
      */
     public static function create(Node $from, Node $to) {
-        return new static($from, $to);
+        return new self($from, $to);
     }
 
     /**
