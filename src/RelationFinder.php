@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 
 class RelationFinder
@@ -95,7 +96,10 @@ class RelationFinder
                     )
                 ];
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+            Log::error("Error in model $model and method $method.");
+            Log::error($e->getMessage() . $e->getTraceAsString());
+        }
         return null;
     }
 

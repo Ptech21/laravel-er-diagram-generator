@@ -8,8 +8,9 @@ use BeyondCode\ErdGenerator\Tests\Models\Avatar;
 use BeyondCode\ErdGenerator\Tests\Models\Comment;
 use BeyondCode\ErdGenerator\Tests\Models\Post;
 use BeyondCode\ErdGenerator\Tests\Models\User;
+use BeyondCode\ErdGenerator\Tests\Models\Error;
 use Illuminate\Support\Arr;
-
+use Illuminate\Support\Facades\Log;
 
 class GetModelRelationsTest extends TestCase
 {
@@ -68,4 +69,14 @@ class GetModelRelationsTest extends TestCase
         $this->assertNull(Arr::get($relations, 'posts'));
     }
 
+    /** @test */
+    public function it_will_log_error_if_model_method_throws_exception()
+    {
+        $finder = new RelationFinder();
+        Log::spy();
+
+        $finder->getModelRelations(Error::class);
+
+        Log::shouldHaveReceived('error')->twice();
+    }
 }
