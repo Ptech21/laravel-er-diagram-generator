@@ -25,6 +25,16 @@ return [
     ],
 
     /*
+     * If you want avoid checking certain methods in a model, you can specify them here.
+     * To skip enter the class name as the key and an array of method names to ignore.
+     */
+    'skip' => [
+        // Post::class => [
+        //     'method'
+        // ]
+    ],
+
+    /*
      * If you want to see only specific models, specify them here using fully qualified
      * classnames.
      *

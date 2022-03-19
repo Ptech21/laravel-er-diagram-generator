@@ -38,6 +38,17 @@ dir="both"
 arrowhead="tee"
 arrowtail="crow"
 ]
+beyondcodeerdgeneratortestsmodelserror:id -> beyondcodeerdgeneratortestsmodelspost:error_id [
+label=" "
+xlabel="HasMany
+posts"
+color="#FCBF49"
+penwidth="1.8"
+fontname="Helvetica Neue"
+dir="both"
+arrowhead="crow"
+arrowtail="none"
+]
 beyondcodeerdgeneratortestsmodelspost:user_id -> beyondcodeerdgeneratortestsmodelsuser:id [
 label=" "
 xlabel="BelongsTo

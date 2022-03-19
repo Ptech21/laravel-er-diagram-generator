@@ -70,6 +70,24 @@ class GetModelRelationsTest extends TestCase
     }
 
     /** @test */
+    public function it_will_skip_a_method_if_it_is_in_config_skip()
+    {
+        $this->app['config']->set('erd-generator.skip', [
+            Error::class => [
+                'error'
+            ]
+        ]);
+        Log::spy();
+
+        $finder = new RelationFinder();
+
+        $relations = $finder->getModelRelations(Error::class);
+
+        Log::shouldNotHaveReceived('error');
+        $this->assertCount(1, $relations);
+    }
+
+    /** @test */
     public function it_will_log_error_if_model_method_throws_exception()
     {
         $finder = new RelationFinder();

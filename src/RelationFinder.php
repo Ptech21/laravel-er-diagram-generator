@@ -29,10 +29,11 @@ class RelationFinder
             return Collection::make($trait->getMethods(ReflectionMethod::IS_PUBLIC));
         })->flatten();
 
+        $ignoreMethods = Arr::get(config('erd-generator.skip', []), $model, []);
         $methods = Collection::make($class->getMethods(ReflectionMethod::IS_PUBLIC))
             ->merge($traitMethods)
-            ->reject(function (ReflectionMethod $method) use ($model) {
-                return $method->class !== $model || $method->getNumberOfParameters() > 0;
+            ->reject(function (ReflectionMethod $method) use ($model, $ignoreMethods) {
+                return $method->class !== $model || $method->getNumberOfParameters() > 0 || in_array($method->getName(), $ignoreMethods);
             });
 
         $relations = Collection::make();
@@ -43,7 +44,7 @@ class RelationFinder
 
         $relations = $relations->filter();
 
-        if ($ignoreRelations = Arr::get(config('erd-generator.ignore', []),$model))
+        if ($ignoreRelations = Arr::get(config('erd-generator.ignore', []), $model))
         {
             $relations = $relations->diffKeys(array_flip($ignoreRelations));
         }
