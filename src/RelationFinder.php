@@ -98,7 +98,7 @@ class RelationFinder
                 ];
             }
         } catch (\Throwable $e) {
-            Log::error("Error in model $model and method $method.");
+            Log::error("Error in model $model and method {$method->getName()}.");
             Log::error($e->getMessage() . $e->getTraceAsString());
         }
         return null;
