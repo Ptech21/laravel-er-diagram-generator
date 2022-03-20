@@ -29,11 +29,10 @@ class RelationFinder
             return Collection::make($trait->getMethods(ReflectionMethod::IS_PUBLIC));
         })->flatten();
 
-        $ignoreMethods = Arr::get(config('erd-generator.skip', []), $model, []);
         $methods = Collection::make($class->getMethods(ReflectionMethod::IS_PUBLIC))
             ->merge($traitMethods)
-            ->reject(function (ReflectionMethod $method) use ($model, $ignoreMethods) {
-                return $method->class !== $model || $method->getNumberOfParameters() > 0 || in_array($method->getName(), $ignoreMethods);
+            ->reject(function (ReflectionMethod $method) use ($model) {
+                return $method->class !== $model || $method->getNumberOfParameters() > 0;
             });
 
         $relations = Collection::make();
@@ -98,8 +97,10 @@ class RelationFinder
                 ];
             }
         } catch (\Throwable $e) {
-            Log::error("Error in model $model and method {$method->getName()}.");
-            Log::error($e->getMessage() . $e->getTraceAsString());
+            if (config('erd-generator.debug', false)) {
+                Log::error("Error in model $model and method {$method->getName()}.");
+                Log::error($e->getMessage() . $e->getTraceAsString());
+            }
         }
         return null;
     }

@@ -25,16 +25,6 @@ return [
     ],
 
     /*
-     * If you want avoid checking certain methods in a model, you can specify them here.
-     * To skip enter the class name as the key and an array of method names to ignore.
-     */
-    'skip' => [
-        // Post::class => [
-        //     'method'
-        // ]
-    ],
-
-    /*
      * If you want to see only specific models, specify them here using fully qualified
      * classnames.
      *
@@ -65,6 +55,12 @@ return [
      * 'use_db_schema' to be set to true.
      */
     'use_column_types' => true,
+
+    /*
+     * This setting, if set to true, will make the generator print certain
+     * mode/relation errors.
+     */
+    'debug' => false,
 
     /*
      * These colors will be used in the table representation for each entity in

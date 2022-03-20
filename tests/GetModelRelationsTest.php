@@ -70,17 +70,12 @@ class GetModelRelationsTest extends TestCase
     }
 
     /** @test */
-    public function it_will_skip_a_method_if_it_is_in_config_skip()
+    public function it_will_not_log_errors_if_debug_is_disabled()
     {
-        $this->app['config']->set('erd-generator.skip', [
-            Error::class => [
-                'error'
-            ]
-        ]);
+        $this->app['config']->set('erd-generator.debug', false);
         Log::spy();
 
         $finder = new RelationFinder();
-
         $relations = $finder->getModelRelations(Error::class);
 
         Log::shouldNotHaveReceived('error');
@@ -88,11 +83,12 @@ class GetModelRelationsTest extends TestCase
     }
 
     /** @test */
-    public function it_will_log_error_if_model_method_throws_exception()
+    public function it_will_log_errors_if_debug_is_enabled()
     {
-        $finder = new RelationFinder();
+        $this->app['config']->set('erd-generator.debug', true);
         Log::spy();
 
+        $finder = new RelationFinder();
         $finder->getModelRelations(Error::class);
 
         Log::shouldHaveReceived('error')->twice();
