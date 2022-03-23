@@ -57,6 +57,12 @@ return [
     'use_column_types' => true,
 
     /*
+     * This setting, if set to true, will make the generator print certain
+     * mode/relation errors.
+     */
+    'debug' => false,
+
+    /*
      * These colors will be used in the table representation for each entity in
      * your graph.
      */

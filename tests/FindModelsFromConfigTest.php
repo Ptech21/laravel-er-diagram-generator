@@ -7,6 +7,7 @@ use BeyondCode\ErdGenerator\Tests\Models\Avatar;
 use BeyondCode\ErdGenerator\Tests\Models\Comment;
 use BeyondCode\ErdGenerator\Tests\Models\Post;
 use BeyondCode\ErdGenerator\Tests\Models\User;
+use BeyondCode\ErdGenerator\Tests\Models\Error;
 
 class FindModelsFromConfigTest extends TestCase
 {
@@ -18,10 +19,10 @@ class FindModelsFromConfigTest extends TestCase
 
         $classNames = $finder->getModelsInDirectory(__DIR__ . "/Models");
 
-        $this->assertCount(4, $classNames);
+        $this->assertCount(5, $classNames);
 
         $this->assertSame(
-            [Avatar::class, Comment::class, Post::class, User::class],
+            [Avatar::class, Comment::class, Error::class, Post::class, User::class],
             $classNames->values()->all()
         );
     }
@@ -40,9 +41,9 @@ class FindModelsFromConfigTest extends TestCase
 
         $classNames = $finder->getModelsInDirectory(__DIR__ . "/Models");
 
-        $this->assertCount(3, $classNames);
+        $this->assertCount(4, $classNames);
         $this->assertEquals(
-            [Comment::class, Post::class, User::class],
+            [Comment::class, Error::class, Post::class, User::class],
             $classNames->values()->all()
         );
     }

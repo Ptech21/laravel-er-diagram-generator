@@ -3,6 +3,7 @@
 namespace BeyondCode\ErdGenerator;
 
 use phpDocumentor\GraphViz\Node;
+use phpDocumentor\GraphViz\Edge as Base;
 
 /**
  * Class Edge
@@ -11,7 +12,7 @@ use phpDocumentor\GraphViz\Node;
  * @method void setXLabel(string $name)
  *
  */
-class Edge extends \phpDocumentor\GraphViz\Edge
+class Edge extends Base
 {
     protected $fromPort = null;
 
@@ -20,9 +21,9 @@ class Edge extends \phpDocumentor\GraphViz\Edge
     /**
      * @param Node $from
      * @param Node $to
-     * @return Edge|\phpDocumentor\GraphViz\Edge
+     * @return Edge|Base
      */
-    public static function create(Node $from, Node $to): self
+    public static function create(Node $from, Node $to): Base
     {
         return new self($from, $to);
     }
@@ -48,7 +49,7 @@ class Edge extends \phpDocumentor\GraphViz\Edge
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $attributes = array();
         foreach ($this->attributes as $value) {

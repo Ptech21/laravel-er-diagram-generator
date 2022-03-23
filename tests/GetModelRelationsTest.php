@@ -8,8 +8,9 @@ use BeyondCode\ErdGenerator\Tests\Models\Avatar;
 use BeyondCode\ErdGenerator\Tests\Models\Comment;
 use BeyondCode\ErdGenerator\Tests\Models\Post;
 use BeyondCode\ErdGenerator\Tests\Models\User;
+use BeyondCode\ErdGenerator\Tests\Models\Error;
 use Illuminate\Support\Arr;
-
+use Illuminate\Support\Facades\Log;
 
 class GetModelRelationsTest extends TestCase
 {
@@ -68,4 +69,28 @@ class GetModelRelationsTest extends TestCase
         $this->assertNull(Arr::get($relations, 'posts'));
     }
 
+    /** @test */
+    public function it_will_not_log_errors_if_debug_is_disabled()
+    {
+        $this->app['config']->set('erd-generator.debug', false);
+        Log::spy();
+
+        $finder = new RelationFinder();
+        $relations = $finder->getModelRelations(Error::class);
+
+        Log::shouldNotHaveReceived('error');
+        $this->assertCount(1, $relations);
+    }
+
+    /** @test */
+    public function it_will_log_errors_if_debug_is_enabled()
+    {
+        $this->app['config']->set('erd-generator.debug', true);
+        Log::spy();
+
+        $finder = new RelationFinder();
+        $finder->getModelRelations(Error::class);
+
+        Log::shouldHaveReceived('error')->twice();
+    }
 }

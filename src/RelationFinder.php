@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 
 class RelationFinder
@@ -42,7 +43,7 @@ class RelationFinder
 
         $relations = $relations->filter();
 
-        if ($ignoreRelations = Arr::get(config('erd-generator.ignore', []),$model))
+        if ($ignoreRelations = Arr::get(config('erd-generator.ignore', []), $model))
         {
             $relations = $relations->diffKeys(array_flip($ignoreRelations));
         }
@@ -95,7 +96,12 @@ class RelationFinder
                     )
                 ];
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+            if (config('erd-generator.debug', false)) {
+                Log::error("Error in model $model and method {$method->getName()}.");
+                Log::error($e->getMessage() . $e->getTraceAsString());
+            }
+        }
         return null;
     }
 
